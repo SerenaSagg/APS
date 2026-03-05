@@ -1,0 +1,92 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "b1f3277f-3378-4629-9256-c8a789f3cb7f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Bloque 1\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Hola\n",
+    "print(\"Bloque 1\")\n",
+    "x=10\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "9a086143-afe9-46c4-996d-7ab21d5092f2",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Bloque2\n",
+      "X= 10\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"Bloque2\")\n",
+    "print(\"X=\",x)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "55177e8d-edf0-4852-bb8a-46c7c424acc1",
+   "metadata": {},
+   "source": [
+    "# Hola\n",
+    "## Es una prueba\n",
+    "### subtitulo\n",
+    "texto, texto, ...\n",
+    "\n",
+    "- primero\n",
+    "- segundo\n",
+    "- *cursiva*\n",
+    "- **negrita**\n",
+    "\n",
+    "\n",
+    "  ![imagen](https://filosofia.net/cdf/uhm/img/uns.png)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ba8b045c-3291-42cf-9048-f5a0522e8148",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
