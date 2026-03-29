@@ -37,15 +37,12 @@ N = 10000
 
 # 1) Señal original de 2 kHz
 tt1, x1 = mi_sen(vmax=1, dc=0, ff=2000, ph=0, nn=N, fs=fs)
-P1=np.sum(x1**2)/N
-E1=np.sum(x1**2)
-
+P1=np.var(x1)
 # 2) Misma señal amplificada +3 dB y desfasada en pi/2
 fs2 = 2000001
 N2 = 10000
 tt2, x2 = mi_sen(vmax=np.sqrt(2), dc=0, ff=2000, ph=np.pi/2, nn=N2, fs=fs2)
-P2=np.sum(x2**2)/N2
-E2=np.sum(x2**2)
+P2=np.var(x2)
 
 # 3) Modulación
 # Parámetros
@@ -58,30 +55,25 @@ tt3, xx1 = mi_sen(vmax=1, dc=0, ff=2000, ph=0, nn=N3, fs=fs3)
 tt3, xm = mi_sen(vmax=1, dc=0, ff=1000000, ph=0, nn=N3, fs=fs3)
 # Señal modulada
 x3 = (1 + xx1) * xm
-P3= np.sum(x3**2)/N3
-E3=np.sum(x3**2)
+
 
 # 4) Señal saturada al 75%
 fs4 = 2000001
 N4 = 10000
 tt4, x4 = mi_sen(vmax=1, dc=0, ff=2000, ph=0, nn=N4, fs=fs4)
 x4 = np.clip(x4, -0.75, 0.75)
-P4=np.sum(x4**2)/N4
-E4=np.sum(x4**2)
+
 
 # 5) Señal cuadrada
 fs5 = 2000001
 N5 = 10000
 tt5,x5=cuadrada(A=1, f=4000, nn=N5, fs=fs5)
-P5=np.sum(x5**2)/N5
-E5=np.sum(x5**2)
 
 # 6) Pulso rectangular
 fs6 = 2000001
 N6 = 40000
 tt6, x6 = pulso_rect(A=1, t0=0.002, tf=0.012, nn=N6, fs=fs6)
-P6=np.sum(x6**2)/N6
-E6=np.sum(x6**2)
+
 
 # Gráfico 1
 plt.figure()
