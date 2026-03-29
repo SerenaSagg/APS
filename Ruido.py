@@ -18,11 +18,11 @@ def mi_sen(vmax, dc, ff, ph, nn, fs):
     return tt,xx
 
 #Teorema de Nyquist: fs>=2f
-fs=100 #frecuencia de muestreo, cantidad de muestras que toma por seg
+fs=1000 #frecuencia de muestreo, cantidad de muestras que toma por seg
 #fn=fs/2
 #ws=2*np.pi*fs
 Ts=1/fs #periodo de muestreo, tiempo entre muestras
-N=100
+N=1000
 tt=np.arange(N)*Ts
 
 t1, x1 = mi_sen(vmax=1, dc=0,ff=35, ph=0, nn=N, fs=fs)
@@ -151,7 +151,7 @@ plt.subplot(1,2,1)
 plt.hist(e, bins=25, density=True)
 plt.title("Histograma del error")
 plt.xlabel("Error")
-plt.ylabel("Densidad")
+plt.ylabel("Amplitud")
 plt.grid(True)
 
 # 🔹 Autocorrelación
@@ -167,15 +167,25 @@ plt.show()
 
 #%%
 #FFT
-
-XX=np.fft.fft(xx)
+XX=np.fft.fft(x6)
 XXmod=np.abs(XX)
+XXmod_dB=20*np.log(XXmod)
 XXphase=np.angle(XX)
 plt.subplot(2, 1, 1)
 plt.title("FFT")
-plt.plot(XXmod, label="Modulo", color="red")
+plt.plot(XXmod_dB, label="Modulo", color="red")
 plt.legend()
 plt.subplot(2, 1, 2)
 plt.plot(XXphase, label="Fase")
 plt.legend()
 plt.show()
+
+
+#como se ve el espectro de la señal de entrada? SNR?
+SNRdB=10*np.log(1/Pr2)#--> potencia de señal normalizada
+plt.plot(SNRdB)
+#Densidad espectral de potencia |x|**2
+#Ancho de banda Bw=nyquist=fs/2
+#Pr=fs/2*rn-->rn=Pr/(fs/2)
+#si aumenta Bw=f/s el piso de ruido disminuye
+
