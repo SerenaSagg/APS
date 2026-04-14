@@ -116,7 +116,7 @@ xxq_v = xxq * qq
 # Gráfico comparación
 plt.figure()
 plt.plot(tt, x6, label="Señal original")
-plt.step(tt, xxq_v, where='mid', label="Señal cuantizada")
+plt.step(tt, xxq_v, label="Señal cuantizada")
 plt.title("Señal original vs cuantizada")
 plt.xlabel("Tiempo")
 plt.ylabel("Amplitud")
@@ -167,6 +167,7 @@ plt.show()
 
 #%%
 #FFT
+plt.figure()
 XX=np.fft.fft(x6)
 XXmod=np.abs(XX)
 XXmod_dB=20*np.log(XXmod)
