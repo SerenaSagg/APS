@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.signal import windows
 
-
 def mi_sen_omega(vmax, dc, Omega, ph, nn):
     n = np.arange(nn)
     xx = dc + vmax*np.sin(Omega*n + ph)
@@ -16,15 +15,12 @@ a0 = np.sqrt(2)   # potencia senoidal = 1 W
 
 SNRs = [3, 10]
 
-# Ventanas
-
 ventanas = {
     "Rectangular": np.ones(N),
     "Flat-top": windows.flattop(N),
     "Blackman-Harris": windows.blackmanharris(N),
     "Hann": windows.hann(N)
 }
-
 
 Omega = 2*np.pi*np.arange(N)/N
 k0 = int(Omega0/(2*np.pi/N))
@@ -42,10 +38,16 @@ for SNR in SNRs:
 
     for nombre, w in ventanas.items():
 
+        # Matriz de realizaciones: M señales de N muestras
+        X = np.zeros((M, N))
+
         a_est = np.zeros(M)
         Omega_est = np.zeros(M)
         Omega_real = np.zeros(M)
 
+        # ============================
+        # Generación de realizaciones
+        # ============================
 
         for j in range(M):
 
@@ -64,28 +66,36 @@ for SNR in SNRs:
 
             ruido = np.random.normal(0, sigma, N)
 
-            x = x + ruido
+            X[j, :] = x + ruido
 
-            xw = x*w
+        # ============================
+        # Estimación para cada fila
+        # ============================
+
+        for j in range(M):
+
+            xw = X[j, :] * w
 
             Xw = np.fft.fft(xw)
 
             # Estimador de amplitud
-            a_est[j] = (2/(N))*np.abs(Xw[k0])
+            a_est[j] = (2/N) * np.abs(Xw[k0])
 
             # Estimador de frecuencia
             kmax = np.argmax(np.abs(Xw[:N//2]))
             Omega_est[j] = Omega[kmax]
 
-
-# Sesgo y varianza amplitud
+        # ============================
+        # Sesgo y varianza amplitud
+        # ============================
 
         mu_a = np.mean(a_est)
         sesgo_a = mu_a - a0
         var_a = np.var(a_est)
 
-# Sesgo y varianza frecuencia
-
+        # ============================
+        # Sesgo y varianza frecuencia
+        # ============================
 
         error_Omega = Omega_est - Omega_real
 
