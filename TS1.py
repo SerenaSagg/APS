@@ -55,7 +55,7 @@ Var=0.1
 #varianza=((b-a)**2)/12
 #como dc=0, a=-c y b=c
 c=np.sqrt(Var*3)
-nn2=np.random.uniform(-c,c,N)  # Ruido gaussiano de media 0 y varianza 0.1
+nn2=np.random.uniform(-c,c,N)  # Ruido de media 0 y varianza 0.1
 f4, X4 = calcular_fft(nn2, fs)
 
 # 5) Pulso rectangular
