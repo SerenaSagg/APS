@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.signal import windows
 
 def mi_sen_omega(vmax, dc, Omega, ph, nn):
@@ -27,6 +28,9 @@ k0 = int(Omega0/(2*np.pi/N))
 
 for SNR in SNRs:
 
+    resultados_a = {}
+    resultados_Omega = {}
+
     Ps = 1
     Pn = Ps/(10**(SNR/10))
     sigma = np.sqrt(Pn)
@@ -38,17 +42,14 @@ for SNR in SNRs:
 
     for nombre, w in ventanas.items():
 
-        # Matriz de realizaciones: M señales de N muestras
+        # Matriz: M señales de N muestras
         X = np.zeros((M, N))
 
         a_est = np.zeros(M)
         Omega_est = np.zeros(M)
         Omega_real = np.zeros(M)
 
-        # ============================
         # Generación de realizaciones
-        # ============================
-
         for j in range(M):
 
             fr = np.random.uniform(-2, 2)
@@ -68,10 +69,8 @@ for SNR in SNRs:
 
             X[j, :] = x + ruido
 
-        # ============================
-        # Estimación para cada fila
-        # ============================
 
+        # Estimación para cada fila
         for j in range(M):
 
             xw = X[j, :] * w
@@ -85,22 +84,21 @@ for SNR in SNRs:
             kmax = np.argmax(np.abs(Xw[:N//2]))
             Omega_est[j] = Omega[kmax]
 
-        # ============================
-        # Sesgo y varianza amplitud
-        # ============================
 
+        # Sesgo y varianza amplitud
         mu_a = np.mean(a_est)
         sesgo_a = mu_a - a0
         var_a = np.var(a_est)
 
-        # ============================
         # Sesgo y varianza frecuencia
-        # ============================
-
         error_Omega = Omega_est - Omega_real
 
         sesgo_Omega = np.mean(error_Omega)
         var_Omega = np.var(error_Omega)
+
+        #resultados para histogramas
+        resultados_a[nombre] = a_est.copy()
+        resultados_Omega[nombre] = error_Omega.copy()
 
         print("\n------------------------------------")
         print("Ventana:", nombre)
@@ -114,3 +112,34 @@ for SNR in SNRs:
         print("\nEstimación de frecuencia")
         print("Sesgo:", sesgo_Omega)
         print("Varianza:", var_Omega)
+
+    # Histograma de amplitud
+    plt.figure()
+
+    for nombre, valores in resultados_a.items():
+        plt.hist(valores, bins=25, label=nombre)
+
+    plt.axvline(a0, color="black", linestyle="--",
+                label="Amplitud real A0")
+
+    plt.title(f"Estimación de amplitud - SNR = {SNR} dB")
+    plt.xlabel("Amplitud estimada")
+    plt.ylabel("Densidad")
+    plt.legend()
+    plt.show()
+
+
+    # Histograma de error de frecuencia
+    plt.figure()
+
+    for nombre, valores in resultados_Omega.items():
+        plt.hist(valores, bins=25, label=nombre)
+
+    plt.axvline(0, color="black", linestyle="--",
+                label="Error nulo")
+
+    plt.title(f"Error de frecuencia - SNR = {SNR} dB")
+    plt.xlabel("Error de frecuencia (rad/muestra)")
+    plt.ylabel("Densidad")
+    plt.legend()
+    plt.show()
